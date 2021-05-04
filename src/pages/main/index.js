@@ -17,6 +17,10 @@ const Main = () => {
         error: notificationError
       }
 
+      if (!alertMessage[type]) {
+        return;
+      }
+
       alertMessage[type](`this is ${type} message`)
     };
 
