@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { Suspense } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
+import Notification from './components/notification';
 
-function App() {
+const ViewMain = React.lazy(() =>
+  import(/* webpackChunkName: "views-auth" */ './pages/main')
+);
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Notification 
+      timeLimit={2000}
+      />
+      <Suspense fallback={<div>Loading ...</div>}>
+        <Router>
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={props => <ViewMain {...props} />}
+            />
+          </Switch>
+        </Router>
+      </Suspense>
+    </React.Fragment>
   );
 }
 
